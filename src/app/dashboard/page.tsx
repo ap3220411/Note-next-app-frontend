@@ -11,13 +11,13 @@ import {
   getProfile,
   logout,
   updateNote,
-  type UserProfile,
+
 } from "@/lib/api";
 
 export default function DashboardPage() {
   const router = useRouter();
   const [notes, setNotes] = useState<Note[]>([]);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
@@ -697,7 +697,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="space-y-4 mb-8">
-                 
+
 
                   <div className="bg-purple-50 rounded-xl p-4">
                     <div className="flex items-center justify-between">
