@@ -5,19 +5,19 @@ import { useRouter } from "next/navigation";
 import {
   ApiError,
   type Note,
+  type UserProfile,
   createNote,
   deleteNote,
   getNotes,
   getProfile,
   logout,
   updateNote,
-
 } from "@/lib/api";
 
 export default function DashboardPage() {
   const router = useRouter();
   const [notes, setNotes] = useState<Note[]>([]);
-  const [profile, setProfile] = useState("");
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
@@ -292,13 +292,60 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-
-
         </div>
 
         {/* Action Bar */}
-        <div className=" rounded-2xl border border-gray-200 shadow-sm p-6 mb-8">
-          <div className="flex flex-col  lg:flex-row lg:items-center  lg:justify-end gap-6">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="relative flex-1">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search notes..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  />
+                </div>
+
+                <div className="flex border border-gray-300 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setActiveTab("all")}
+                    className={`px-4 py-3 text-sm font-medium transition-colors ${activeTab === "all"
+                      ? "bg-indigo-600 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      }`}
+                  >
+                    All Notes
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("recent")}
+                    className={`px-4 py-3 text-sm font-medium transition-colors ${activeTab === "recent"
+                      ? "bg-indigo-600 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      }`}
+                  >
+                    Recent
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("favorites")}
+                    className={`px-4 py-3 text-sm font-medium transition-colors ${activeTab === "favorites"
+                      ? "bg-indigo-600 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      }`}
+                  >
+                    Favorites
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div>
               <button
                 onClick={() => setShowAddModal(true)}
@@ -414,7 +461,17 @@ export default function DashboardPage() {
                             })}
                           </span>
                         </div>
-
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                          </svg>
+                          <span>
+                            {new Date(note.updatedAt).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric'
+                            })}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="flex items-center justify-end gap-2">
@@ -697,7 +754,25 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="space-y-4 mb-8">
-
+                  <div className="bg-blue-50 rounded-xl p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600">Member Since</p>
+                        <p className="text-lg font-semibold text-gray-900">
+                          {new Date(profile.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="bg-purple-50 rounded-xl p-4">
                     <div className="flex items-center justify-between">

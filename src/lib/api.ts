@@ -16,6 +16,13 @@ export type Note = {
   discriptipn: string;
   createdAt: string;
 };
+export type UserProfile = {
+  _id: string;
+  name: string;
+  email: string;
+  phone: number;
+  createdAt: string;
+};
 
 // Get token from localStorage
 function getToken(): string | null {
@@ -109,6 +116,7 @@ type NotesResponse = {
   data: Note[];
 };
 
+
 type NoteResponse = {
   success: boolean;
   message: string;
@@ -157,7 +165,7 @@ export function logout() {
 // In your api.ts file, update the getProfile function:
 
 export async function getProfile() {
-   const response = await axiosInstance.get("/auth/profile");
+  const response = await axiosInstance.get("/auth/profile");
   return response?.data.data;
 }
 
