@@ -15,6 +15,7 @@ export type Note = {
   title: string;
   discriptipn: string;
   createdAt: string;
+   updatedAt: string;
 };
 export type UserProfile = {
   _id: string;
