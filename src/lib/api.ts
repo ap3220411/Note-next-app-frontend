@@ -22,6 +22,7 @@ export type UserProfile = {
   email: string;
   phone: number;
   createdAt: string;
+  updatedAt: string;
 };
 
 // Get token from localStorage
